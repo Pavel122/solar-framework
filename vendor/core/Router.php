@@ -100,11 +100,11 @@ class Router
             switch ($e->getMessage()) {
                 case 403:
                     http_response_code(403);
-                    include '../application/views/403.php';
+                    include APP . '/views/403.php';
                     break;
                 case 404:
                     http_response_code(404);
-                    include '../application/views/404.php';
+                    include APP . '/views/404.php';
                     break;
             }
         }

@@ -14,31 +14,26 @@ class PostsController extends App
         $route = \vendor\core\Router::getRoute();
         $id = $route['id'];
 
-
         $model = new \application\models\Posts();
         $model->setTable('posts');
         $post = $model->post($id);
 
-        switch ($post) {
-            case 404:
-                $this->view = '../404';
+        if ($post == '404') {
+            $this->view = '../404';
 
-                $this->setVariables([
-                    'title' => 'Error 404 &ndash; Not found!'
-                ]);
+            $this->setVariables([
+                'title' => 'Error 404 &ndash; Not found!'
+            ]);
+        } else {
+            $this->view = 'page';
+            $categories = $model->getCategs($id);
 
-                break;
-            case 403:
-                $this->view = '../403';
-                break;
-            default:
-                $this->view = 'page';
-
-                $this->setVariables([
-                    'title' => $post['title'],
-                    'post' => $post,
-                    'id' => $id
-                ]);
+            $this->setVariables([
+                'title' => $post['title'],
+                'post' => $post,
+                'categories' => $categories,
+                'id' => $id
+            ]);
         }
     }
 }
