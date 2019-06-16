@@ -4,6 +4,10 @@
     margin: 0;
 }
 
+.content {
+    padding-top: 35px;
+}
+
 footer nav {
     color: #000;
     background: #f5f5f5;
@@ -39,6 +43,30 @@ footer nav {
 
 #post-menu span {
     margin-right: 20px;
+}
+
+.breadcrumb > li + li:before {
+    content: '»'!important;
+}
+
+.categories {
+    width: 100%;
+    margin: 15px 0 5px 0;
+}
+
+::selection {
+    color:#fff;
+    background:#F25222;
+}
+
+::-moz-selection {
+    color:#fff;
+    background:#F25222;
+}
+
+::-webkit-selection {
+    color:#fff;
+    background:#F25222;
 }
 
 html,

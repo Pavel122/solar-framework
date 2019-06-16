@@ -10,13 +10,16 @@ use \Exception;
 class View
 {
     /**
-     * @var array $routes contains all routes
+     * @var string $title contains page title
+     * @var array $site contains data of site from ini-file
+     * @var array $route contains current route
      * @var string $view current view
      * @var string $layout current template
      */
 
+    public $site = [], $title = '';
     protected $route = [];
-    protected $view, $layout;
+    protected $view, $layout = '';
 
     public function __construct($route, $layout='', $view='')
     {
@@ -24,10 +27,9 @@ class View
 
         if ($layout !== false)
             $this->layout =  $layout ?: LAYOUT;
-        else
-            $this->layout = false;
 
         $this->view = $view;
+        $this->site = parse_ini_file(CONFIG . '/main.ini', true)['site'];
     }
 
     public  function render($variables)
@@ -52,7 +54,7 @@ class View
                     throw new Exception("<p>Не найден шаблон <b>$file_layout</b></p>");
                 require_once $file_layout;
             } catch (Exception $e) {
-                $e->getMessage();
+                echo $e->getMessage();
             }
         }
     }

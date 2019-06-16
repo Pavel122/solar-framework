@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo !isset($title) ? 'Error 404 &ndash; not Found!' : $title; ?></title>
+    <title><?php echo !isset($title) ? (!empty($this->title) ? $this->title : 'Default template') : $title; ?></title>
+
     <!-- Global stylesheet -->
     <link rel="stylesheet" href="/public/css/global.css">
     <!-- Bootstrap stylesheet -->
@@ -13,7 +14,12 @@
     <!-- Bootstrap and another js files -->
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    <!-- Bootstrap and another js files -->
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </head>
 <body>
 <div class="wrapper">
@@ -28,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">Имя сайта</a>
+                    <a class="navbar-brand" href="/"><?=$this->site['name']?></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="menu">
@@ -60,21 +66,10 @@
     </header>
     <!-- Header -->
 
-    <!-- Bread crumb -->
-    <div class="container">
-        <ol class="breadcrumb">
-            <li><a href="/">🏠</a></li>
-            <li><a href="#">Блог</a></li>
-            <li><a href="#">Категория</a></li>
-            <li class="disable"><a href="#">Место</a></li>
-        </ol>
-    </div>
-    <!-- Bread crumb -->
-
     <!-- Content-->
     <div class="jumbotron" style="background: transparent">
         <div class="container content">
-            <?=!isset($ctx) ? require_once '404.php' : $ctx ?>
+            <?=!isset($ctx) ? require_once '../404.php' : $ctx ?>
         </div>
     </div>
     <!-- Content -->
@@ -84,17 +79,17 @@
         <nav role="navigation" class="navbar">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-3">
+                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
                         <ul class="list-unstyled">
                             <li>GitHub</li>
-                            <li><a href="#">About us</a></li>
+                            <li><a href="/page/about">About us</a></li>
                             <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact & support</a></li>
+                            <li><a href="/page/contact">Contact & support</a></li>
                             <li><a href="#">Enterprise</a></li>
                             <li><a href="#">Site status</a></li>
                         </ul>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
                         <ul class="list-unstyled">
                             <li>Applications</li>
                             <li><a href="#">Product for Mac</a></li>
@@ -103,7 +98,7 @@
                             <li><a href="#">Product for idiotic Windows</a></li>
                         </ul>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
                         <ul class="list-unstyled">
                             <li>Services</li>
                             <li><a href="#">Web analytics</a></li>
@@ -112,7 +107,7 @@
                             <li><a href="#">Job board</a></li>
                         </ul>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
                         <ul class="list-unstyled">
                             <li>Documentation</li>
                             <li><a href="#">Product Help</a></li>
@@ -127,12 +122,12 @@
                     <div class="col-xs-8">
                         <ul class="list-unstyled list-inline pull-left">
                             <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="/page/contact">Contact Us</a></li>
                             <li><a href="#">Privacy</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4">
-                        <p class="text-muted pull-right">© 2017 &ndash; <?=date('Y')?> Company Name. All rights reserved</p>
+                        <p class="text-muted pull-right">© <?=$this->site['create_year']?> &ndash; <?=date('Y')?> &laquo;<?=$this->site['name']?>&raquo;. All rights reserved</p>
                     </div>
                 </div>
             </div>
@@ -157,11 +152,5 @@
     </div>
     <!-- Modal -->
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
 </body>
 </html>

@@ -5,12 +5,15 @@ use \DirectoryIterator;
 
 class Page extends \vendor\core\base\Model
 {
-    function checkPage($alias)
-    {
-        $path = APP . '/views/page/' . $alias . '.php';
+    private $title, $path;
 
-        if (is_file($path))
+    public function checkPage($alias)
+    {
+        $this->path = APP . '/views/page/' . $alias . '.php';
+
+        if (is_file($this->path))
             return true;
+
         return false;
     }
 }
