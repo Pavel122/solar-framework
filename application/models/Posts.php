@@ -7,7 +7,7 @@ class Posts extends Model
 {
     private function getPage($id)
     {
-        $res = $this->findOne($id, ['author', 'title', 'content', 'category_id', 'datetime']);
+        $res = $this->findOne("id = ?", [$id]);
         return $res;
     }
 
@@ -22,5 +22,38 @@ class Posts extends Model
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function getCategs($id)
+    {
+        $post = $this->post($id);
+        $categories = [];
+
+        if (is_numeric($post))
+            return false;
+
+        $categ_id = $post->category_id;
+
+
+        $this->setTable('categories');
+        $cat = $this->findOne('id = :id', [':id' => $categ_id]);
+
+        if (!$cat)
+            exit('<b>Fatal error:</b> this post has an <b>unknown</b> category.');
+
+        $categories[] = [
+            'title' => $cat->title,
+            'alias' => $cat->alias
+        ];
+
+        while ($cat->parent) {
+            $cat = $this->findOne('id = :parent', [':parent' => $cat->parent]);
+            $categories[] = [
+                'title' => $cat->title,
+                'alias' => $cat->alias
+            ];
+        }
+
+        return array_reverse($categories);
     }
 }

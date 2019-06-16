@@ -1,63 +1,52 @@
 <?php
 namespace vendor\core\base;
 
-use vendor\core\DB, \PDOStatement, \Exception;
+use vendor\core\DB, \Exception;
 
 abstract class Model extends DB
 {
     protected $table;
-    protected $primKey = 'id';
 
     public function setTable($table)
     {
         $this->table = $table;
     }
 
-    public function findAll(PDOStatement $stmt)
-    {
-        return $stmt->fetchAll();
-    }
-
-    public function findOne($id, array $columns = [])
+    public function findAll($params='')
     {
         try {
-            $column = !empty($columns) ? implode(',', $columns) : '*';
+            if (!$this->table)
+                throw new Exception('Укажите таблицу, из которой хотите всё выбрать!');
 
-            if (!isset($this->table))
-                throw new Exception('Укажите таблицу в БД. Вызовите метод модели setTable()');
-
-            $pk = $this->primKey;
-            $table = $this->table;
-
-            $sql = "SELECT $column FROM $table WHERE $pk = :id";
-            $stmt = $this->execute($sql, [':id' => $id]);
-
-            if (!$stmt)
-                throw new Exception('Произошла ошибка! Такой таблицы нет!');
-
-            return $stmt->fetch();
+            return \R::findAll($this->table, $params);
         } catch (Exception $e) {
             echo $e->getMessage();
             return false;
         }
     }
 
-    public function findLike($like, $field, $columns=[])
+    public function findOne($params, $prep=[])
     {
         try {
-            $columns = !empty($columns) ? implode(', ', $columns) : '*';
+            if (!$this->table)
+                throw new Exception('Укажите таблицу в БД. Вызовите метод модели setTable()');
+
+            return \R::findOne($this->table, $params, $prep);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function findLike($like, $field)
+    {
+        try {
             $table = $this->table;
 
             if (!isset($table))
                 throw new Exception('Укажите таблицу!');
 
-            $sql = "SELECT $columns FROM `$table` WHERE `$field` LIKE :like";
-
-            $data = $this->execute($sql, [':like' => "%$like%"])->fetch();
-
-            if (!$data)
-                throw new Exception('У вас ошибка в запросе!');
-
+            $data = \R::find($table, "$field LIKE :like", [':like' => $like]);
             return $data;
         } catch (Exception $e) {
             echo $e->getMessage();
