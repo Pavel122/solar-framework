@@ -1,3 +1,4 @@
+<?php $this->title = 'Контакты'; ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#send').click(function () {
@@ -25,7 +26,7 @@
     </div>
     <div class="form-group" id="content">
         <label for="text">Письмо:</label>
-        <textarea id="text" class="form-control" style="width: 65%; height: 25vh"></textarea>
+        <textarea id="text" class="form-control" style="width: 78%; height: 17vh; resize: none"></textarea>
     </div>
     <button class="btn btn-success" id="send" type="button" data-target="#error" data-toggle="modal">Отправить письмо</button>
 </form>
