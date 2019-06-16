@@ -1,6 +1,10 @@
 <?php
     if (isset($posts)) {
+        $i = 0;
         foreach ($posts as $post) {
+            $i++;
+
+            if ($i > 4) break;
 ?>
     <div class="panel panel-default">
         <div class="panel-heading"><?=$post['title']?></div>

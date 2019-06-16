@@ -1,4 +1,15 @@
-<h2><?=$post['title']?></h2>
+<div class="categories">
+    <ol class="breadcrumb">
+        <li><a href="/">Главная</a></li>
+        <?php
+        foreach ($categories as $cat)
+            echo "<li><a href='/category/{$cat['alias']}'>{$cat['title']}</a></li>";
+        ?>
+        <li class="active"><a href=""><?=$post['title']?></a></li>
+    </ol>
+</div>
+
+<h2 style="margin-top: 5px;"><?=$post['title']?></h2>
 
 <p id="post-menu">
     <ul>
